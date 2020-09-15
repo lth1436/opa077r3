@@ -10,18 +10,18 @@ def create_lkas11(packer, frame, car_fingerprint, apply_steer, steer_req,
                   lkas11, sys_warning, sys_state, CC, enabled, bus):
 
   values = copy.deepcopy( lkas11 )
-  values["CF_Lkas_LdwsSysState"] = 3 if enabled else 1
-  #values["CF_Lkas_LdwsSysState"] = sys_state
+  #values["CF_Lkas_LdwsSysState"] = 3 if enabled else 1
+  values["CF_Lkas_LdwsSysState"] = sys_state
   values["CF_Lkas_SysWarning"] = 3 if sys_warning else 0
-  #values["CF_Lkas_LdwsLHWarning"] = left_lane_depart
-  #values["CF_Lkas_LdwsRHWarning"] = right_lane_depart
+  values["CF_Lkas_LdwsLHWarning"] = left_lane_depart
+  values["CF_Lkas_LdwsRHWarning"] = right_lane_depart
   values["CR_Lkas_StrToqReq"] = apply_steer
   values["CF_Lkas_ActToi"] = steer_req
   values["CF_Lkas_ToiFlt"] = 0
   values["CF_Lkas_MsgCount"] = frame % 0x10
   values["CF_Lkas_Chksum"] = 0
 
-  if car_fingerprint in [CAR.PALISADE, CAR.SANTAFE]:
+  if car_fingerprint in [CAR.PALISADE, CAR.SANTAFE, CAR.NIRO_HEV]:
     values["CF_Lkas_Bca_R"] = int(CC.hudControl.leftLaneVisible) + (int(CC.hudControl.rightLaneVisible) << 1)
     values["CF_Lkas_LdwsOpt_USM"] = 2
 
